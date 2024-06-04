@@ -1,9 +1,3 @@
-#!/bin/bash
-
-# Configurações de rede
-ip addr add 192.0.2.2/24 dev eth0
-ip link set eth0 up
-
 # Habilitar encaminhamento de pacotes
 echo 1 > /proc/sys/net/ipv4/ip_forward
 

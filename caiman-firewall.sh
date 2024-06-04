@@ -1,11 +1,3 @@
-#!/bin/bash
-
-# Configurações de rede
-ip addr add 192.0.3.2/24 dev eth1
-ip link set eth1 up
-ip addr add 192.0.2.3/24 dev eth0
-ip link set eth0 up
-
 # Habilitar encaminhamento de pacotes
 echo 1 > /proc/sys/net/ipv4/ip_forward
 
@@ -38,10 +30,6 @@ iptables -A FORWARD -i eth1 -o eth0 -p tcp --dport 5432 -j DROP
 # Restringir o acesso às portas 80 e 443 da SubredeLocal
 iptables -A FORWARD -i eth0 -o eth1 -p tcp --dport 80 -j ACCEPT
 iptables -A FORWARD -i eth0 -o eth1 -p tcp --dport 443 -j ACCEPT
-
-# Restringir o acesso ao Servidor de Aplicações à SubredeLocal
-iptables -A FORWARD -i eth0 -o eth1 -p tcp --dport 80 -d 192.0.3.2 -j ACCEPT
-iptables -A FORWARD -i eth0 -o eth1 -p tcp --dport 443 -d 192.0.3.2 -j ACCEPT
 
 # Redirecionamento e Encaminhamento
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
